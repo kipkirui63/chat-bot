@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bot</title>
+    <style>
+        #chat-container {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Bot</h1>
+    <div id="chat-container">
+        <p><strong>Bot:</strong> Hello! How can I assist you?</p>
+    </div>
+    <form id="user-input-form">
+        <input type="text" id="user-input" placeholder="Type your message here...">
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        document.getElementById("user-input-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var userInput = document.getElementById("user-input").value;
+            if (userInput.trim() !== '') { // Check if user input is not empty
+                sendMessage(userInput);
+                displayMessage('You: ' + userInput); // Prefix user's input with "You:"
+            }
+        });
+
+        function sendMessage(userInput) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/chat", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayMessage('<strong>Bot:</strong> ' + response.bot_response); // Prefix bot's response with "Bot:"
+                }
+            };
+            xhr.send("user_input=" + userInput);
+            document.getElementById("user-input").value = '';
+        }
+
+        function displayMessage(message) {
+            var chatContainer = document.getElementById("chat-container");
+            var newMessage = document.createElement("p");
+            newMessage.innerHTML = message;
+            chatContainer.appendChild(newMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
