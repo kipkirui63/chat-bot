@@ -30,7 +30,7 @@ def message_probability(user_message, recognised_words, single_response=False, r
 def check_all_messages(message):
     highest_prob_list = {}
 
-    # Simplifies response creation / adds it to the dict
+    # Simplifies response creation also adds it to the dict
     def response(bot_response, list_of_words, single_response=False, required_words=[]):
         nonlocal highest_prob_list
         highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
