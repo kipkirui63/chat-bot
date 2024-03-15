@@ -5,25 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Bot</title>
     <style>
-        #chat-container {
-            height: 300px;
+         #chat-container {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
             overflow-y: scroll;
             border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+            z-index: 9999; /* Ensure it appears above other elements */
+        }
+
+        #chat-header {
             padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+        }
+
+        #chat-messages {
+            padding: 10px;
+            height: 300px; /* Adjust as needed */
+        }
+
+        #user-input-form {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        /* Styles for chat icon */
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+            z-index: 9999; /* Ensure it appears above other elements */
+        }
+
+        .chat-icon:hover {
+            background-color: #0056b3;
+        }
+
+        #close-chat {
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: auto;
+            
         }
     </style>
 </head>
 <body>
-    <h1>Chat Bot</h1>
+    <!-- <h1>Chat Bot</h1>
     <div id="chat-container">
         <p><strong>Bot:</strong> Hello! How can I assist you?</p>
     </div>
     <form id="user-input-form">
         <input type="text" id="user-input" placeholder="Type your message here...">
         <button type="submit">Send</button>
-    </form>
+    </form> -->
+
+
+    <div id="chat-container">
+        <div id="chat-header">
+            <h3>Chat Bot</h3>
+            <span id="close-chat">&#10006;</span>
+        </div>
+        <div id="chat-messages"></div>
+        <form id="user-input-form">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <div class="chat-icon" id="chat-icon">Chat</div>
 
     <script>
+        var chatContainer = document.getElementById("chat-container");
+        var chatIcon = document.getElementById("chat-icon");
+
+        function toggleChat() {
+            if (chatContainer.style.display === "none") {
+                chatContainer.style.display = "block";
+                chatIcon.style.display = "none";
+            } else {
+                chatContainer.style.display = "none";
+                chatIcon.style.display = "block";
+            }
+        }
+
+        // Event listeners
+        chatIcon.addEventListener("click", toggleChat);
+        document.getElementById("close-chat").addEventListener("click", toggleChat);
+   
+
+
+
+        chatIcon.addEventListener("click", function() {
+            if (chatContainer.style.display === "none") {
+                chatContainer.style.display = "block";
+                chatIcon.style.display = "none";
+            }
+        });
+
+        document.getElementById("close-chat").addEventListener("click", function() {
+            chatContainer.style.display = "none";
+            chatIcon.style.display = "block";
+        });
         document.getElementById("user-input-form").addEventListener("submit", function(event) {
             event.preventDefault();
             var userInput = document.getElementById("user-input").value;
